@@ -9,6 +9,8 @@ topics.find(t=>t.id==='flujo').body+=`<h3>Golomb paso a paso</h3><p>G1: la difer
 topics.find(t=>t.id==='bloque').body+=`<h3>DES, Feistel y realimentación</h3><p>DES es un cifrador de bloque con bloques de 64 bits, clave efectiva de 56 bits y 16 rondas Feistel; su clave es demasiado corta para proteger datos actuales. En Feistel se divide el bloque en dos mitades, y el descifrado emplea la misma estructura con subclaves en orden inverso. AES es una red de sustitución y permutación, no una red Feistel.</p><p>En <b>CFB</b> se realimenta el texto cifrado; en <b>OFB</b> se realimenta la salida del cifrador para producir la secuencia, con independencia del texto cifrado. En OFB no se debe repetir el IV con la misma clave. Ninguno de estos modos aporta autenticidad por sí solo.</p>`;
 topics.find(t=>t.id==='mates').body+=`<h3>Cómo aplicar Euclides extendido</h3><p>Para 7⁻¹ mod 27: 27 = 3·7 + 6; 7 = 1·6 + 1. Deshacemos las divisiones: 1 = 7 − 6 = 7 − (27 − 3·7) = 4·7 − 27. Por tanto, 7⁻¹ ≡ 4 mod 27. Para potencias grandes, calcula cuadrados sucesivos y reduce cada resultado.</p>`;
 
+curriculum.push(aesUnit);
+
 const sources = {
   m1:'M1_Intro_Ciber_Cifrado_2627__.pdf', m2:'M2_Flujo.pdf',
   m3:'M3 Cifrado Bloque y Modos_2627__.pdf', m4:'M4 Integridad y autenticación simétrica.pdf',
@@ -19,7 +21,7 @@ const sources = {
 };
 const topicSource={fundamentos:'m1',mates:'m3',bloque:'m3',integridad:'m4',flujo:'m2'};
 const studyOrder=['fundamentos','mates','bloque','integridad','flujo'];
-const nav=[['inicio','Inicio'],['cobertura','Temario y progreso'],['ruta','Ruta de estudio'],['lecciones','Aprender'],['test','Test de teoría'],['practicas','Test de prácticas'],['problemas','Problemas'],['abiertas','Preguntas cortas'],['simulacro','Simulacro'],['fuentes','Fuentes y correcciones']];
+const nav=[['inicio','Inicio'],['cobertura','Temario y progreso'],['ruta','Ruta de estudio'],['lecciones','Aprender'],['aes-guia','AES paso a paso'],['test','Test de teoría'],['practicas','Test de prácticas'],['problemas','Problemas'],['abiertas','Preguntas cortas'],['simulacro','Simulacro'],['fuentes','Fuentes y correcciones']];
 const $=s=>document.querySelector(s);
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function stored(k,fallback){try{return JSON.parse(localStorage.getItem(k))??fallback}catch{return fallback}}
@@ -38,6 +40,15 @@ for(const u of curriculum){
   const practical=u.group.startsWith('p');
   for(const q of u.questions)(practical?practiceBank:theoryBank).push({...q,unit:u.id,group:practical?u.group.slice(1):u.group,source:u.source,pages:u.pages});
 }
+const sboxProblem=expandedProblems.find(p=>p.id==='sbox');
+sboxProblem.a=`PASO 1: 88 = 10001000 = x⁷+x³. Módulo de AES: m=x⁸+x⁴+x³+x+1.
+PASO 2: Euclides en GF(2), donde restar equivale a XOR:
+m = x·a + r₁, con r₁=x³+x+1
+a = (x⁴+x²+x)·r₁ + x
+r₁ = (x²+1)·x + 1
+PASO 3: sustituyendo x=a+(x⁴+x²+x)r₁ y r₁=m+xa se obtiene 1=H·m+(x⁷+x⁴+x³+x+1)·a, con H=x⁶+x³+x²+x+1. El coeficiente de a es el inverso: 10011011=9B. Comprueba 88·9B=01 en el campo.
+PASO 4: transformación afín: 9B XOR 37 XOR 6E XOR DC XOR B9 XOR 63 = C4. Las cuatro primeras cantidades después de 9B son rotaciones circulares de 9B 1, 2, 3 y 4 bits.
+PASO 5: verifica en S-box entrada 88: fila 8, columna 8 → C4. Para el desarrollo de las divisiones y sustituciones, abre AES paso a paso.`;
 problems.push(...expandedProblems);
 opens.push(...expandedOpens);
 // Corrección del resumen antiguo: periodo de estado y periodo de salida pueden diferir.
@@ -117,6 +128,7 @@ function render(){
   if(state.page==='lecciones'){
     const t=topics.find(x=>x.id===state.topic);out=head('Aprender · '+t.n,t.title,'Reproduce los ejemplos en papel y comprueba cada apartado con su test.')+`<div class="row">${topics.map(x=>`<button class="${x.id===t.id?'primary':'secondary'}" aria-label="Tema ${x.n}: ${esc(x.title)}" onclick="go('lecciones','${x.id}')">${x.n}</button>`).join('')}</div><div class="panel">${t.body}</div><h2>Apartados del bloque</h2>${curriculum.filter(u=>u.group===t.id).map(u=>`<details id="unit-${u.id}"><summary>${esc(u.title)}</summary><div><p>${esc(u.guide)}</p><p class="sub">${esc(sourceText(u))}</p><button class="primary" onclick="studyUnit('${u.id}')">Test de este apartado</button></div></details>`).join('')}<div class="row"><button class="primary" onclick="save('${t.id}',${!d[t.id]})">${d[t.id]?'Estudiado · desmarcar':'Marcar bloque como estudiado'}</button><button class="secondary" onclick="state.setup.teoria={...defaults(),filter:'${t.id}'};go('test')">Practicar todo el bloque →</button></div>`;
   }
+  if(state.page==='aes-guia')out=head('Guía del ejercicio 7','AES: inverso y S-box paso a paso','Desde bits y polinomios hasta la salida completa, con las divisiones desarrolladas.')+`<div class="panel aes-lesson">${aesLesson}</div><div class="row"><button class="primary" onclick="studyUnit('inverso-sbox')">Practicar el inverso y SubBytes →</button><button class="secondary" onclick="go('problemas')">Ir a problemas</button></div>`;
   if(state.page==='test')out=head('Test de teoría','Razona cada respuesta','Entrena por bloque o apartado, con corrección inmediata o al final.')+quizMarkup('teoria');
   if(state.page==='practicas')out=head('Prácticas 1 y 2','Entiende lo que hace el código','Trabaja tamaños, resultados, errores y mecanismos de ambos guiones.')+practiceGuide()+`<h2>Repaso por apartados</h2>${unitsFor('practicas').map(u=>`<details id="unit-${u.id}"><summary>${esc(u.title)}</summary><div><p>${esc(u.guide)}</p><p class="sub">${esc(sourceText(u))}</p><button class="secondary" onclick="studyUnit('${u.id}')">Practicar apartado</button></div></details>`).join('')}<h2>Test de prácticas</h2>`+quizMarkup('practicas');
   if(state.page==='problemas'){
