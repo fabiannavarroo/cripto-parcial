@@ -10,7 +10,7 @@ const context=vm.createContext({
   document:{querySelector:s=>rendered[s]??=( {innerHTML:'',focus(){}} ),getElementById:()=>null},
   window:{scrollTo(){}},console
 });
-for(const f of ['base-data.js','extra-data.js','practice-data.js','curriculum-data.js','exercise-data.js','aes-guide.js','app.js']){
+for(const f of ['base-data.js','extra-data.js','practice-data.js','curriculum-data.js','exercise-data.js','aes-guide.js','matematicas-faltantes.js','app.js']){
   assert.ok(existsSync(resolve(root,f)),`Missing script: ${f}`);
   vm.runInContext(readFileSync(resolve(root,f),'utf8'),context,{filename:f});
 }
@@ -31,7 +31,7 @@ for(const [kind,items] of [['theory',data.theory],['practice',data.practice]]){
   }
 }
 assert.equal(data.theory.length,137);assert.equal(data.practice.length,61);assert.equal(data.units.length,38);
-assert.equal(data.problems.length,40);assert.equal(data.opens.length,24);
+assert.equal(data.problems.length,53);assert.equal(data.opens.length,24);
 // Invariantes del muestreo: sin duplicados, distribuido, conserva respuesta al barajar.
 assert.equal(run('new Set(balancedSample(theoryBank,137).map(q=>q.id)).size'),137);
 assert.equal(run('new Set(balancedSample(theoryBank,29).map(q=>q.unit)).size'),29);
@@ -85,3 +85,24 @@ run("studyUnit('inverso-sbox');startQuiz('teoria')");
 assert.equal(run('state.quiz.teoria.items.length'),8);
 assert.equal(run("state.quiz.teoria.items.every(q=>q.unit==='inverso-sbox')"),true);
 console.log('Verificados navegación a la guía y test del apartado.');
+// Apartados exactos añadidos de las hojas de matemáticas.
+const additions=['t3-1a-euler','t3-1b-euclides','t3-2aii','t3-2bi-euler','t3-2biia','t3-2biv','mod-extra-3aiii','mod-extra-3aiv','mod-extra-3av','mod-extra-4a','mod-extra-4b','mod-extra-4c','mod-extra-4d'];
+for(const id of additions){const p=data.problems.find(item=>item.id===id);assert.ok(p,`Falta ${id}`);assert.equal(p.group,'mates');assert.ok(p.source&&p.pages&&p.q&&p.a);}
+const solutions=(a,b,n)=>Array.from({length:n},(_,x)=>x).filter(x=>(a*x-b)%n===0);
+assert.deepEqual(solutions(7,1,12),[7]);
+assert.deepEqual(solutions(32,1,5),[3]);
+assert.deepEqual(solutions(37,1,10),[3]);
+assert.deepEqual(solutions(3,5,8),[7]);
+assert.deepEqual(solutions(5,10,15),[2,5,8,11,14]);
+assert.deepEqual(solutions(63,2,110),[14]);
+function modpow(base,exponent,n){let out=1n;base%=n;while(exponent){if(exponent&1n)out=out*base%n;base=base*base%n;exponent>>=1n}return out}
+assert.equal(modpow(7n,100n,29n),20n);
+assert.equal(modpow(6n,592n,11n),3n);
+assert.equal(modpow(3n,2005n,1000n),243n);
+assert.equal(modpow(11n,11n,12n),11n);
+assert.equal((11*11)%12,1);
+assert.equal((Number(modpow(16n,16n,17n))+Number(modpow(16n,17n,17n)))%17,0);
+run("go('problemas');state.problemGroup='mates';render()");
+assert.ok(rendered['#app'].innerHTML.includes('T3 · 1.a — Inverso 7 mod 12 con Euler'));
+assert.ok(rendered['#app'].innerHTML.includes('Extra modular · 4.d'));
+console.log('Verificados 13 apartados añadidos, sus congruencias y su aparición en problemas de matemáticas.');

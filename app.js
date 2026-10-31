@@ -17,7 +17,8 @@ const sources = {
   p1:'Práctica1-Funciones hash.pdf · carpeta superior', p2:'Práctica2-Cifrado.pdf · carpeta superior',
   t1:'Ejercicios_T1_Intro_Clasica_Enunciados__.docx.pdf',
   t2:'Ejercicios_T2_Flujo_Enunciados__.docx.pdf y soluciones',
-  t3:'Ejercicios_T3_FundMatematicos_CifradosimetricoBloque_Enunciados__.docx.pdf y soluciones'
+  t3:'Ejercicios_T3_FundMatematicos_CifradosimetricoBloque_Enunciados__.docx.pdf y soluciones',
+  'modular-extra':'M3 ejercicios Modular - soluciones_.pdf'
 };
 const topicSource={fundamentos:'m1',mates:'m3',bloque:'m3',integridad:'m4',flujo:'m2'};
 const studyOrder=['fundamentos','mates','bloque','integridad','flujo'];
@@ -49,7 +50,7 @@ r₁ = (x²+1)·x + 1
 PASO 3: sustituyendo x=a+(x⁴+x²+x)r₁ y r₁=m+xa se obtiene 1=H·m+(x⁷+x⁴+x³+x+1)·a, con H=x⁶+x³+x²+x+1. El coeficiente de a es el inverso: 10011011=9B. Comprueba 88·9B=01 en el campo.
 PASO 4: transformación afín: 9B XOR 37 XOR 6E XOR DC XOR B9 XOR 63 = C4. Las cuatro primeras cantidades después de 9B son rotaciones circulares de 9B 1, 2, 3 y 4 bits.
 PASO 5: verifica en S-box entrada 88: fila 8, columna 8 → C4. Para el desarrollo de las divisiones y sustituciones, abre AES paso a paso.`;
-problems.push(...expandedProblems);
+problems.push(...expandedProblems, ...missingMathProblems);
 opens.push(...expandedOpens);
 // Corrección del resumen antiguo: periodo de estado y periodo de salida pueden diferir.
 opens[5][1]='El periodo de estados es la longitud del ciclo de estados. El periodo de salida es la menor longitud repetitiva de la secuencia y puede ser un divisor del anterior. La complejidad lineal es el tamaño del menor LFSR que genera la salida; un periodo largo no demuestra seguridad.';
