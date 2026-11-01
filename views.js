@@ -49,9 +49,14 @@ function practicesMarkup(){
   return intro+tabs+practiceGuideMarkup();
 }
 function problemGroup(p){return p.group||legacyProblemGroup(p.index)}
-function problemListMarkup(include,showGuide=true){
-  const drafts=stored('cripto-drafts',{});
-  return problems.map((p,index)=>({...p,index})).filter(include).map(p=>`<details class="worked-problem"><summary>${esc(p.title)}</summary><div><p class="solution">${esc(p.q)}</p>${showGuide&&p.id==='sbox'?'<p><button class="text-button" onclick="go(\'aes-guia\')">Leer la explicación de AES paso a paso →</button></p>':''}<textarea aria-label="Tu desarrollo del problema ${p.index+1}" oninput="saveDraft('problem${p.index}',this.value)" placeholder="Desarrolla aquí o resuelve en papel…">${esc(drafts['problem'+p.index]||'')}</textarea><details><summary>Ver solución paso a paso</summary><div class="solution">${esc(p.a)}</div></details>${p.source?`<p class="sub">${esc(sourceText(p))}</p>`:''}</div></details>`).join('');
+function problemListMarkup(include,showGuide=true,trackDone=false){
+  const drafts=stored('cripto-drafts',{}),completed=fabyCompleted();
+  return problems.map((p,index)=>({...p,index})).filter(include).map(p=>{
+    const card=`<details class="worked-problem"><summary>${esc(p.title)}</summary><div><p class="solution">${esc(p.q)}</p>${showGuide&&p.id==='sbox'?'<p><button class="text-button" onclick="go(\'aes-guia\')">Leer la explicación de AES paso a paso →</button></p>':''}<textarea aria-label="Tu desarrollo del problema ${p.index+1}" oninput="saveDraft('problem${p.index}',this.value)" placeholder="Desarrolla aquí o resuelve en papel…">${esc(drafts['problem'+p.index]||'')}</textarea><details><summary>Ver solución paso a paso</summary><div class="solution">${esc(p.a)}</div></details>${p.source?`<p class="sub">${esc(sourceText(p))}</p>`:''}</div></details>`;
+    if(!trackDone)return card;
+    const key=fabyProblemKey(p),checked=completed[key]===true;
+    return `<div class="problem-entry ${checked?'is-done':''}">${card}<label class="problem-check" for="faby-done-${key}"><input type="checkbox" id="faby-done-${key}" ${checked?'checked':''} aria-label="Marcar como hecho: ${esc(p.title)}" onchange="setFabyProblemDone('${key}',this.checked)"><span>Hecho</span></label></div>`;
+  }).join('');
 }
 function showProblems(group){state.problemGroup=group;go('problemas')}
 function problemsMarkup(){
@@ -61,8 +66,22 @@ function problemsMarkup(){
   return intro+`<div class="reading-toolbar"><button class="text-button" onclick="openSection('problemas')">← Todos los temas</button><label class="compact-label">Tema<select aria-label="Bloque de problemas" onchange="state.problemGroup=this.value;render()">${options([['todas','Todos los temas'],...groupsFor('teoria')],state.problemGroup)}</select></label></div><h2>${esc(t?.title||'Todos los problemas del temario')}</h2>`+problemListMarkup(p=>!problemGroup(p).startsWith('p')&&(state.problemGroup==='todas'||problemGroup(p)===state.problemGroup));
 }
 
+function fabyProblemItems(){return problems.map((p,index)=>({...p,index})).filter(p=>!problemGroup(p).startsWith('p'))}
+function fabyProblemKey(p){return p.id||'problem'+p.index}
+function fabyCompleted(){return stored('cripto-faby-completed-v1',{})}
+function fabyProgress(){const items=fabyProblemItems(),completed=fabyCompleted();return {total:items.length,completed:items.filter(p=>completed[fabyProblemKey(p)]===true).length}}
+function setFabyProblemDone(key,value){
+  if(!fabyProblemItems().some(p=>fabyProblemKey(p)===key))return;
+  const completed=fabyCompleted();if(value)completed[key]=true;else delete completed[key];
+  put('cripto-faby-completed-v1',completed);
+  // Actualizar solo el contador y la fila conserva el ejercicio abierto y el foco.
+  const progress=fabyProgress(),counter=document.querySelector('#faby-count');
+  if(counter)counter.textContent=`${progress.completed} / ${progress.total} hechos`;
+  const bar=document.getElementById('faby-progress');if(bar){bar.value=progress.completed;bar.textContent=`${progress.completed} de ${progress.total}`}
+  const checkbox=document.getElementById('faby-done-'+key);
+  if(checkbox){checkbox.checked=Boolean(value);checkbox.closest('.problem-entry')?.classList.toggle('is-done',Boolean(value))}
+}
 function fabyProblemsMarkup(){
-  const normal=p=>!problemGroup(p).startsWith('p');
-  const count=problems.map((p,index)=>({...p,index})).filter(normal).length;
-  return head('Lista de Faby','Problemas Faby',`Los ${count} ejercicios del temario, en el orden anterior.`)+`<p class="sub">Tus borradores se comparten con las otras vistas de problemas.</p>`+problemListMarkup(normal,false);
+  const progress=fabyProgress();
+  return head('Lista de Faby','Problemas Faby',`Los ${progress.total} ejercicios del temario, en el orden anterior.`)+`<p class="sub">Tus borradores y las marcas de ejercicios hechos se guardan en este navegador.</p><div class="faby-progress"><strong id="faby-count" role="status" aria-live="polite" aria-atomic="true">${progress.completed} / ${progress.total} hechos</strong><progress id="faby-progress" value="${progress.completed}" max="${progress.total}" aria-label="Progreso de ejercicios hechos">${progress.completed} de ${progress.total}</progress></div>`+problemListMarkup(p=>!problemGroup(p).startsWith('p'),false,true);
 }

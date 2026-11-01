@@ -49,3 +49,18 @@ nav button{padding:14px 12px;margin-bottom:8px;font-weight:650}
   .lesson-overview,.quiz-settings,.practice-guide{padding:20px}.row label{min-width:0}.lesson-actions>*{width:100%}
   .section-note{font-size:13px}.reference-drawer{padding:16px}.formula{padding:12px;font-size:13px}
 }
+/* Lista de Faby: progreso visible y una casilla independiente del desplegable. */
+.faby-progress{position:sticky;top:12px;z-index:2;display:grid;gap:10px;padding:16px 20px;margin:20px 0;background:#fff;border:1px solid var(--line);border-radius:12px}
+.faby-progress strong{font-variant-numeric:tabular-nums}
+.faby-progress progress{width:100%;height:8px;border:0;border-radius:8px;overflow:hidden;background:#e0e6f1;accent-color:var(--green)}
+.faby-progress progress::-webkit-progress-bar{background:#e0e6f1;border-radius:8px}
+.faby-progress progress::-webkit-progress-value{background:var(--green);border-radius:8px}
+.faby-progress progress::-moz-progress-bar{background:var(--green);border-radius:8px}
+.problem-entry{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:start;margin:12px 0}
+.problem-entry .worked-problem{min-width:0;margin:0}
+.problem-check{display:flex;flex-direction:row;align-items:center;gap:8px;min-height:44px;margin-top:8px;padding:8px 4px;font-size:14px;color:var(--muted);cursor:pointer}
+.problem-check input{width:20px;height:20px;margin:0;accent-color:var(--green);cursor:pointer}
+.problem-check input:focus-visible{outline:3px solid #7691ff;outline-offset:3px}
+.problem-entry.is-done .worked-problem{border-color:#8bc8b5;background:#f2faf7}
+.problem-entry.is-done .problem-check{color:var(--green)}
+@media(max-width:700px){.problem-entry{gap:8px}.problem-check{flex-direction:column;gap:4px;font-size:12px;min-width:44px;margin-top:6px}.faby-progress{top:8px;padding:14px 16px}}

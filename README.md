@@ -15,7 +15,7 @@ La navegación principal tiene cuatro entradas:
 3. **Prácticas**: guiones explicados de las prácticas 1 y 2, test y ejercicios de código en vistas internas.
 4. **Problemas**: primero se elige uno de los cinco temas; después se ven sus ejercicios con borrador y solución. Los ejercicios de laboratorio se encuentran en Prácticas.
 
-La página [Problemas Faby](https://fabiannavarroo.github.io/cripto-parcial/problemas-faby/) reúne únicamente los 50 ejercicios normales del temario, en el orden de la lista anterior a la reorganización. Los tres ejercicios de laboratorio permanecen en Prácticas; la lista de Faby no incluye preguntas de teoría ni enlaces a explicaciones. Se accede también desde Problemas y comparte los mismos borradores.
+La página [Problemas Faby](https://fabiannavarroo.github.io/cripto-parcial/problemas-faby/) reúne únicamente los 50 ejercicios normales del temario, en el orden de la lista anterior a la reorganización. Los tres ejercicios de laboratorio permanecen en Prácticas; la lista de Faby no incluye preguntas de teoría ni enlaces a explicaciones. Se accede también desde Problemas y comparte los mismos borradores. Cada ejercicio de Faby tiene una casilla «Hecho» y un contador de completados sobre 50. Las marcas se guardan en este navegador; marcar o desmarcar actualiza el contador sin cerrar el ejercicio abierto.
 
 El progreso de lectura aparece junto a los temas; el de preguntas, junto a cada test. AES, las preguntas cortas, el simulacro y las fuentes no añaden entradas al menú principal. La sección y vista activas se recuerdan al recargar.
 
