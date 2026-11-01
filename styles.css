@@ -1,0 +1,51 @@
+
+:root{--ink:#19283a;--muted:#5c6e80;--navy:#122238;--blue:#355cff;--bg:#f5f7fb;--line:#dfe5ef;--green:#12785e;--coral:#fff1df}*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 system-ui,-apple-system,sans-serif}button,select,textarea{font:inherit}button{cursor:pointer}.shell{display:grid;grid-template-columns:250px 1fr;min-height:100vh}aside{background:var(--navy);color:#fff;padding:30px 20px;position:sticky;top:0;height:100vh;overflow:auto}.brand{font-weight:800;font-size:22px;letter-spacing:-.04em}.brand span{color:#9bb3ff}.side-note{color:#aab9ca;font-size:13px;margin:3px 0 30px}nav button{display:block;border:0;background:transparent;text-align:left;color:#bfcbda;width:100%;padding:10px 12px;border-radius:9px}nav button:hover,nav button.active{background:#283c58;color:white}nav .label{font-size:11px;text-transform:uppercase;letter-spacing:.12em;color:#8fa1b7;margin:22px 12px 7px}.main{padding:48px 7%;max-width:1250px;width:100%}.eyebrow{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--blue);font-weight:800}h1{font-size:clamp(36px,5vw,58px);line-height:1.07;letter-spacing:-.05em;margin:10px 0 20px}h2{font-size:30px;letter-spacing:-.035em;line-height:1.2}h3{line-height:1.3}p{margin:0 0 14px}.lead{font-size:19px;color:var(--muted);max-width:780px}.hero{background:#e8edff;border:1px solid #d9e1ff;border-radius:22px;padding:35px;margin:25px 0}.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}.card,.panel,details{background:#fff;border:1px solid var(--line);border-radius:15px;padding:22px}.card h3{margin:0 0 8px}.card p{font-size:14px;color:var(--muted)}.pill{display:inline-block;background:#edf1ff;color:#3954c8;border-radius:30px;font-size:12px;font-weight:700;padding:4px 10px}.panel{margin:16px 0}.callout{padding:17px 20px;background:var(--coral);border-left:4px solid #f2a443;border-radius:8px;margin:18px 0}.formula{background:#eef3fa;border-radius:9px;padding:14px 18px;font-family:ui-monospace,monospace;overflow:auto;margin:14px 0}.primary{border:0;background:var(--blue);color:#fff;border-radius:9px;padding:10px 16px;font-weight:700}.secondary{border:1px solid #cbd5e3;background:#fff;color:var(--ink);border-radius:9px;padding:9px 14px}.topic-btn{margin-top:6px}.row{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.sub{color:var(--muted);font-size:14px}details{margin:12px 0;padding:16px 20px}summary{cursor:pointer;font-weight:750}details>div{padding-top:14px}ul,ol{padding-left:22px}li{margin:6px 0}.question{margin:16px 0}.choices{display:grid;gap:8px}.choice{border:1px solid var(--line);background:#fff;border-radius:9px;text-align:left;padding:11px 14px;color:var(--ink)}.choice:hover:not(:disabled){border-color:var(--blue)}.choice.selected{border-color:#355cff;background:#edf1ff}.choice:focus-visible,button:focus-visible,select:focus-visible,textarea:focus-visible,summary:focus-visible{outline:3px solid #7691ff;outline-offset:2px}.choice.correct{background:#e3f6ef;border-color:#59b99d}.choice.wrong{background:#ffebeb;border-color:#df8383}.feedback{padding:12px 14px;border-radius:8px;background:#eef3fa;margin-top:10px}.hidden{display:none}textarea{width:100%;min-height:120px;border:1px solid #cbd5e3;border-radius:9px;padding:12px;resize:vertical}select{padding:9px;border:1px solid #cbd5e3;border-radius:8px;background:white}a{color:#355cff}.progress{height:8px;background:#e0e6f1;border-radius:10px;overflow:hidden}.progress span{display:block;height:100%;background:#496bff}.check{display:flex;gap:10px;align-items:flex-start}.footer{color:var(--muted);font-size:13px;margin-top:50px}.tag{color:var(--muted);font-size:13px;font-weight:700}.kpi{font-size:28px;font-weight:800;line-height:1.2}.tablewrap{overflow-x:auto}table{border-collapse:collapse;width:100%;font-size:14px}th,td{text-align:left;padding:10px;border-bottom:1px solid var(--line)}@media(max-width:700px){.shell{display:block}aside{position:static;height:auto;padding:16px}.side-note{margin:0 0 10px}nav{display:flex;overflow-x:auto;gap:5px}nav .label{display:none}nav button{white-space:nowrap;width:auto}.main{padding:30px 20px}.hero{padding:23px}}
+label{display:flex;flex-direction:column;gap:4px;max-width:100%}select{max-width:100%;min-width:0}.solution{white-space:pre-wrap;overflow-wrap:anywhere}.source{margin:8px 0 0}.check{flex-direction:row;margin:12px 0}input[type=checkbox]{width:18px;height:18px;flex-shrink:0}h3{overflow-wrap:anywhere}.row h3{margin:0}summary{overflow-wrap:anywhere}@media(max-width:700px){.row label{width:100%}.row select{width:100%}.kpi{font-size:25px}}
+/* Lectura como un cuaderno: cuatro tareas principales y un índice de cinco temas.
+   Se conserva la tinta azul, el fondo de papel y las superficies con borde. */
+.shell{grid-template-columns:220px minmax(0,1fr)}
+aside{padding:32px 20px}.brand{font-size:21px}.side-note{margin-bottom:36px}
+.main{padding:48px 6%;max-width:1180px;min-width:0}
+h1{font-size:clamp(32px,4vw,46px);letter-spacing:-.04em;margin-bottom:16px}
+h2{font-size:25px}.lead{font-size:18px;margin-bottom:28px;max-width:720px}
+nav button{padding:14px 12px;margin-bottom:8px;font-weight:650}
+.scope-note{font-size:12px;color:#aab9ca;border-top:1px solid #304158;padding-top:20px;margin-top:32px}
+.section-note{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:var(--muted);font-size:14px;margin:0 0 24px}
+.chapter-list{border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#fff}
+.chapter-row{display:flex;align-items:center;gap:20px;width:100%;padding:24px;border:0;border-bottom:1px solid var(--line);background:transparent;text-align:left;color:var(--ink)}
+.chapter-row:last-child{border-bottom:0}.chapter-row:hover{background:#edf1ff}.chapter-row:focus-visible{outline:3px solid #7691ff;outline-offset:-3px}
+.chapter-number{color:var(--blue);font:600 16px ui-monospace,monospace;align-self:flex-start;padding-top:2px}
+.chapter-text{display:grid;gap:4px;flex:1;min-width:0}.chapter-text strong{font-size:18px;line-height:1.35}.chapter-text>span{font-size:14px;color:var(--muted);line-height:1.5}
+.chapter-meta{font-size:13px;color:var(--muted);white-space:nowrap}.chapter-meta>span{margin-left:10px;color:var(--blue)}
+.text-button{padding:4px 0;border:0;background:transparent;color:var(--blue);font-size:14px;font-weight:650;text-align:left;text-decoration:none}
+.text-button:hover{text-decoration:underline}.back-link{margin-bottom:16px}
+.subnav{display:flex;flex-wrap:wrap;gap:8px;padding:0 0 20px;border-bottom:1px solid var(--line);margin-bottom:24px}
+.subnav button{border:1px solid var(--line);background:#fff;border-radius:8px;padding:9px 14px;color:var(--muted)}
+.subnav button.active{background:#e8edff;border-color:#b7c6ff;color:#263fbd;font-weight:700}
+.subnav button:hover{border-color:var(--blue)}
+.reading-toolbar{display:flex;justify-content:space-between;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:24px}
+.compact-label{font-size:13px;color:var(--muted);max-width:100%}
+.reading-note{padding:20px;background:#e8edff;border-radius:12px;margin:0 0 20px}.reading-note p{font-size:14px;margin:6px 0 12px}
+.lesson-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:24px}.lesson-overview{padding:28px}
+.lesson-unit .check{margin:0;font-size:14px}.lesson-unit .row{margin-top:16px;justify-content:space-between}
+.reference-drawer{background:transparent;margin-top:28px;color:var(--muted)}.reference-drawer>div{color:var(--ink)}
+.quiz-settings{margin-top:0}.quiz-settings>.row:first-child{align-items:flex-end;gap:16px}.quiz-settings label{font-size:14px;flex:1;min-width:120px}
+.quiz-options{border:0;background:transparent;border-radius:0;padding:0;margin:20px 0;color:var(--muted);font-size:14px}
+.quiz-options>div{padding:16px 0 4px}.settings-note{margin:12px 0 0}
+.source-details{border:0;padding:0;background:transparent;color:var(--muted);font-size:13px;margin:12px 0 0}.source-details summary{font-weight:500}
+.source-details p{padding-top:8px;overflow-wrap:anywhere}
+.practice-guide{padding:24px}.practice-guide>summary{display:grid;gap:4px}.practice-guide>summary>span{font-size:12px;color:var(--blue);text-transform:uppercase;letter-spacing:.06em}.practice-guide>summary>strong{font-size:21px}
+.practice-guide>summary::after{content:'Abrir guion ↓';font-size:14px;color:var(--muted);font-weight:500}.practice-guide[open]>summary::after{content:'Cerrar guion ↑'}
+.short-question{padding:20px}.short-question>summary{line-height:1.5}.section-description{color:var(--muted);margin:24px 0}
+.formula{white-space:normal}.solution,.formula,.aes-lesson{overflow-wrap:anywhere}.footer{margin-top:40px;font-size:12px}
+@media(max-width:700px){
+  .shell{display:block}aside{padding:20px}.brand{font-size:20px}.side-note{font-size:12px;margin:0 0 16px}
+  nav{display:grid;grid-template-columns:1fr 1fr;gap:8px;overflow:visible}nav button{margin:0;padding:11px 12px;width:100%;white-space:normal;text-align:center;font-size:14px}
+  .scope-note{display:none}.main{padding:28px 20px}.lead{font-size:16px;margin-bottom:24px}
+  .chapter-row{padding:20px 16px;gap:12px;flex-wrap:wrap}.chapter-text strong{font-size:17px}.chapter-text>span{font-size:13px}
+  .chapter-meta{flex-basis:100%;padding-left:32px}.chapter-meta>span{float:right}.chapter-number{font-size:14px}
+  .subnav{gap:6px}.subnav button{font-size:13px;padding:9px 10px;flex:1}
+  .reading-toolbar{align-items:flex-start;gap:12px}.compact-label{width:100%}.compact-label select{width:100%}
+  .lesson-overview,.quiz-settings,.practice-guide{padding:20px}.row label{min-width:0}.lesson-actions>*{width:100%}
+  .section-note{font-size:13px}.reference-drawer{padding:16px}.formula{padding:12px;font-size:13px}
+}

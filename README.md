@@ -4,16 +4,18 @@ Web estática: [fabiannavarroo.github.io/cripto-parcial](https://fabiannavarroo.
 
 Alcance fijado por la captura que proporcionó el estudiante el 30 de octubre de 2026: **hasta cifrado simétrico incluido**. Incluye fundamentos de seguridad y clásicos, matemáticas, AES y bloque, modos, funciones resumen y MAC, cifrado autenticado, flujo y aleatoriedad breve; además, los guiones de las prácticas 1 y 2. No incluye el bloque posterior de logaritmo discreto, asimétrico, acuerdo de claves, TLS ni poscuántica.
 
-Hay 37 apartados de estudio, 129 preguntas de teoría, 61 preguntas de prácticas, 40 problemas con solución y 24 preguntas cortas. Cubrir todos los apartados del material no garantiza dominarlo ni predice las preguntas, duración o penalización del examen.
+Hay 38 conceptos de estudio dentro de cinco temas, 137 preguntas de teoría, 61 preguntas de prácticas, 53 problemas con solución y 24 preguntas cortas. Cubrir todos los apartados del material no garantiza dominarlo ni predice las preguntas, duración o penalización del examen.
 
 ## Uso
 
-- **Temario y progreso**: lectura por apartado y preguntas practicadas/acertadas en el último intento. Cada pregunta del banco está asignada a un apartado.
-- **Aprender**: explicaciones de los cinco bloques y desarrollo de sus apartados.
-- **Tests**: bloque, apartado, preguntas sin practicar o última respuesta incorrecta, modo aprender/examen y cantidad. La selección reparte preguntas por apartados antes de repetirlos; las opciones se mezclan preservando la respuesta correcta.
-- **Problemas y preguntas cortas**: escribir antes de abrir las soluciones.
-- **Simulacro**: seleccionar los tests en modo examen y resolver una pregunta corta y un problema sorteados. El botón de nuevo sorteo vacía expresamente esos dos borradores.
-- **Fuentes y correcciones**: referencias de páginas y errores detectados en los materiales.
+La navegación principal tiene cuatro entradas:
+
+1. **Explicaciones**: índice de cinco temas. Cada tema reúne su resumen y el desarrollo de sus conceptos. La guía detallada de AES está dentro de Matemáticas y de Bloque/AES. Las fuentes y correcciones están plegadas al final del índice.
+2. **Test de teoría**: tipo test, preguntas cortas y simulacro como vistas internas. Los filtros por apartado y repaso están plegados; tema, cantidad y corrección permanecen visibles.
+3. **Prácticas**: guiones explicados de las prácticas 1 y 2, test y ejercicios de código en vistas internas.
+4. **Problemas**: primero se elige uno de los cinco temas; después se ven sus ejercicios con borrador y solución. Los ejercicios de laboratorio se encuentran en Prácticas.
+
+El progreso de lectura aparece junto a los temas; el de preguntas, junto a cada test. AES, las preguntas cortas, el simulacro y las fuentes no añaden entradas al menú principal. La sección y vista activas se recuerdan al recargar.
 
 Se conservan localmente respuestas de test, orden de opciones, historial de corrección, lecturas marcadas y borradores. El modo examen registra el historial al entregar; no contestar mantiene la pregunta pendiente. Este progreso pertenece a ese navegador y origen, sin sincronización entre dispositivos. Los borradores y marcas de la versión anterior conservan sus claves.
 
@@ -50,4 +52,4 @@ node scripts/verify.mjs
 
 Comprueba la integridad del banco, asignación al alcance, unicidad de identificadores y opciones, muestreo sin duplicados, correspondencia de respuestas tras barajar, corrección al entregar, pendientes, idempotencia y persistencia, y resultados numéricos conocidos de ejercicios. Para revisar cambios antes de publicar: `git diff --check` y `git diff --cached`.
 
-También se verificó en navegador Chromium de escritorio (1440×1000) y móvil (390×844): navegación de las diez secciones, filtrado por apartado, respuesta correcta e incorrecta, repetición de errores, cambio de respuesta en examen, corrección de pendientes, recarga, persistencia de borradores y estados vacíos. No hubo errores de JavaScript ni solicitudes fallidas; no se detectó desbordamiento horizontal. La revisión fue de una web estática, sin API ni base de datos remota.
+También se verificó en navegador Chromium de escritorio (1440×1000) y móvil (390×844): navegación de las cuatro secciones, filtrado por apartado, respuesta correcta e incorrecta, repetición de errores, cambio de respuesta en examen, corrección de pendientes, recarga, persistencia de borradores y estados vacíos. No hubo errores de JavaScript ni solicitudes fallidas; no se detectó desbordamiento horizontal. También se comprobó que se conservan las marcas y borradores anteriores, que los 50 problemas del temario y los 3 de laboratorio siguen accesibles, y que la guía AES y el simulacro se abren dentro de su sección. La revisión fue de una web estática, sin API ni base de datos remota.

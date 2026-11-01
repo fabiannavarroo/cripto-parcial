@@ -10,7 +10,7 @@ const context=vm.createContext({
   document:{querySelector:s=>rendered[s]??=( {innerHTML:'',focus(){}} ),getElementById:()=>null},
   window:{scrollTo(){}},console
 });
-for(const f of ['base-data.js','extra-data.js','practice-data.js','curriculum-data.js','exercise-data.js','aes-guide.js','matematicas-faltantes.js','app.js']){
+for(const f of ['base-data.js','extra-data.js','practice-data.js','curriculum-data.js','exercise-data.js','aes-guide.js','matematicas-faltantes.js','views.js','app.js']){
   assert.ok(existsSync(resolve(root,f)),`Missing script: ${f}`);
   vm.runInContext(readFileSync(resolve(root,f),'utf8'),context,{filename:f});
 }
@@ -80,7 +80,10 @@ console.log('Verificados divisiones polinómicas, identidad de Bézout, inverso 
 run("go('aes-guia')");
 assert.ok(rendered['#app'].innerHTML.includes('La segunda división, sin saltos'));
 assert.ok(rendered['#app'].innerHTML.includes('1001 1011'));
-assert.ok(rendered['#nav'].innerHTML.includes('AES paso a paso'));
+assert.equal((rendered['#nav'].innerHTML.match(/<button /g)||[]).length,4);
+assert.ok(rendered['#nav'].innerHTML.includes('Explicaciones'));
+assert.ok(!rendered['#nav'].innerHTML.includes('AES paso a paso'));
+assert.equal(run('state.page'),'lecciones');
 run("studyUnit('inverso-sbox');startQuiz('teoria')");
 assert.equal(run('state.quiz.teoria.items.length'),8);
 assert.equal(run("state.quiz.teoria.items.every(q=>q.unit==='inverso-sbox')"),true);
@@ -106,3 +109,30 @@ run("go('problemas');state.problemGroup='mates';render()");
 assert.ok(rendered['#app'].innerHTML.includes('T3 · 1.a — Inverso 7 mod 12 con Euler'));
 assert.ok(rendered['#app'].innerHTML.includes('Extra modular · 4.d'));
 console.log('Verificados 13 apartados añadidos, sus congruencias y su aparición en problemas de matemáticas.');
+// Organización: solo cuatro entradas principales, con las herramientas dentro.
+assert.deepEqual(JSON.parse(run('JSON.stringify(nav.map(([id])=>id))')),['lecciones','test','practicas','problemas']);
+run("openSection('lecciones')");
+assert.equal((rendered['#app'].innerHTML.match(/class="chapter-row"/g)||[]).length,5);
+assert.ok(rendered['#app'].innerHTML.includes('Fuentes del temario'));
+assert.ok(!rendered['#app'].innerHTML.includes('quiz-start'));
+run("openSection('practicas')");
+assert.equal((rendered['#app'].innerHTML.match(/class="practice-guide"/g)||[]).length,2);
+assert.ok(!rendered['#app'].innerHTML.includes('quiz-start'));
+run("setView('practicas','exercises')");
+assert.equal((rendered['#app'].innerHTML.match(/class="worked-problem"/g)||[]).length,3);
+run("openSection('problemas')");
+assert.equal((rendered['#app'].innerHTML.match(/class="chapter-row"/g)||[]).length,5);
+assert.ok(!rendered['#app'].innerHTML.includes('class="worked-problem"'));
+run("showProblems('todas')");
+assert.equal((rendered['#app'].innerHTML.match(/class="worked-problem"/g)||[]).length,50);
+run("go('abiertas')");
+assert.equal(run('state.page'),'test');
+assert.equal((rendered['#app'].innerHTML.match(/class="short-question"/g)||[]).length,24);
+run("go('simulacro');prepareExam('teoria')");
+assert.equal(run('state.theoryView'),'quiz');
+assert.ok(rendered['#app'].innerHTML.includes('quiz-start'));
+run("go('aes-guia')");
+assert.equal(run('state.page'),'lecciones');
+assert.ok(rendered['#app'].innerHTML.includes('La segunda división, sin saltos'));
+assert.equal(run("stored('cripto-navigation-v3',{}).lessonView"),'aes');
+console.log('Verificadas cuatro secciones, vistas internas, guía AES, 50 problemas del temario, 3 de laboratorio y 24 preguntas cortas.');
