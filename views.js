@@ -49,18 +49,20 @@ function practicesMarkup(){
   return intro+tabs+practiceGuideMarkup();
 }
 function problemGroup(p){return p.group||legacyProblemGroup(p.index)}
-function problemListMarkup(include){
+function problemListMarkup(include,showGuide=true){
   const drafts=stored('cripto-drafts',{});
-  return problems.map((p,index)=>({...p,index})).filter(include).map(p=>`<details class="worked-problem"><summary>${esc(p.title)}</summary><div><p class="solution">${esc(p.q)}</p>${p.id==='sbox'?'<p><button class="text-button" onclick="go(\'aes-guia\')">Leer la explicación de AES paso a paso →</button></p>':''}<textarea aria-label="Tu desarrollo del problema ${p.index+1}" oninput="saveDraft('problem${p.index}',this.value)" placeholder="Desarrolla aquí o resuelve en papel…">${esc(drafts['problem'+p.index]||'')}</textarea><details><summary>Ver solución paso a paso</summary><div class="solution">${esc(p.a)}</div></details>${p.source?`<p class="sub">${esc(sourceText(p))}</p>`:''}</div></details>`).join('');
+  return problems.map((p,index)=>({...p,index})).filter(include).map(p=>`<details class="worked-problem"><summary>${esc(p.title)}</summary><div><p class="solution">${esc(p.q)}</p>${showGuide&&p.id==='sbox'?'<p><button class="text-button" onclick="go(\'aes-guia\')">Leer la explicación de AES paso a paso →</button></p>':''}<textarea aria-label="Tu desarrollo del problema ${p.index+1}" oninput="saveDraft('problem${p.index}',this.value)" placeholder="Desarrolla aquí o resuelve en papel…">${esc(drafts['problem'+p.index]||'')}</textarea><details><summary>Ver solución paso a paso</summary><div class="solution">${esc(p.a)}</div></details>${p.source?`<p class="sub">${esc(sourceText(p))}</p>`:''}</div></details>`).join('');
 }
 function showProblems(group){state.problemGroup=group;go('problemas')}
 function problemsMarkup(){
-  const intro=head('Resolver en papel','Problemas','Ejercicios del temario con espacio para tu desarrollo y solución paso a paso.')+'<p><a class="text-button" href="./problemas-faby/">Problemas Faby · todos en el orden anterior →</a></p>';
+  const intro=head('Resolver en papel','Problemas','Ejercicios del temario con espacio para tu desarrollo y solución paso a paso.')+'<p><a class="text-button" href="./problemas-faby/">Problemas Faby · ejercicios en el orden anterior →</a></p>';
   if(!state.problemGroup)return intro+chapterList(t=>`showProblems('${t.id}')`,t=>`${problems.map((p,index)=>({...p,index})).filter(p=>problemGroup(p)===t.id).length} ejercicios`)+`<p class="sub section-description">Los ejercicios de código están en <button class="text-button" onclick="setView('practicas','exercises')">Prácticas → Ejercicios</button>.</p>`;
   const t=topics.find(t=>t.id===state.problemGroup);
   return intro+`<div class="reading-toolbar"><button class="text-button" onclick="openSection('problemas')">← Todos los temas</button><label class="compact-label">Tema<select aria-label="Bloque de problemas" onchange="state.problemGroup=this.value;render()">${options([['todas','Todos los temas'],...groupsFor('teoria')],state.problemGroup)}</select></label></div><h2>${esc(t?.title||'Todos los problemas del temario')}</h2>`+problemListMarkup(p=>!problemGroup(p).startsWith('p')&&(state.problemGroup==='todas'||problemGroup(p)===state.problemGroup));
 }
 
 function fabyProblemsMarkup(){
-  return head('Lista de Faby','Problemas Faby',`Los ${problems.length} problemas en el orden anterior, incluidos los de prácticas.`)+`<p class="sub">Tus borradores se comparten con las otras vistas de problemas.</p>`+problemListMarkup(()=>true);
+  const normal=p=>!problemGroup(p).startsWith('p');
+  const count=problems.map((p,index)=>({...p,index})).filter(normal).length;
+  return head('Lista de Faby','Problemas Faby',`Los ${count} ejercicios del temario, en el orden anterior.`)+`<p class="sub">Tus borradores se comparten con las otras vistas de problemas.</p>`+problemListMarkup(normal,false);
 }
