@@ -136,3 +136,18 @@ assert.equal(run('state.page'),'lecciones');
 assert.ok(rendered['#app'].innerHTML.includes('La segunda división, sin saltos'));
 assert.equal(run("stored('cripto-navigation-v3',{}).lessonView"),'aes');
 console.log('Verificadas cuatro secciones, vistas internas, guía AES, 50 problemas del temario, 3 de laboratorio y 24 preguntas cortas.');
+// Lista personal: todos los problemas mantienen el orden y los índices originales.
+run("go('problemas-faby')");
+assert.equal((rendered['#app'].innerHTML.match(/class="worked-problem"/g)||[]).length,53);
+let lastPosition=-1;
+for(const p of data.problems){
+  const escaped=run(`esc(${JSON.stringify(p.title)})`);
+  const position=rendered['#app'].innerHTML.indexOf(`<summary>${escaped}</summary>`,lastPosition+1);
+  assert.ok(position>lastPosition,`Orden incorrecto: ${p.title}`);lastPosition=position;
+}
+assert.ok(rendered['#app'].innerHTML.includes("saveDraft('problem0',this.value)"));
+assert.ok(rendered['#app'].innerHTML.includes("saveDraft('problem52',this.value)"));
+assert.ok(readFileSync(resolve(root,'problemas-faby/index.html'),'utf8').includes('data-page="problemas-faby"'));
+assert.ok(readFileSync(resolve(root,'problemas-faby/index.html'),'utf8').includes('<base href="../">'));
+assert.equal((rendered['#nav'].innerHTML.match(/<button /g)||[]).length,4);
+console.log('Verificados los 53 problemas de Faby en orden original y sus borradores compartidos.');

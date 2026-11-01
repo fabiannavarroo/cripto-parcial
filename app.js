@@ -30,7 +30,7 @@ const sessionKey='cripto-sessions-v2';
 const defaults=()=>({filter:'todas',unit:'todas',review:'todas',mode:'aprender',count:'10'});
 const savedNavigation=stored('cripto-navigation-v3',{});
 const state={
-  page:nav.some(([id])=>id===savedNavigation.page)?savedNavigation.page:'lecciones',
+  page:document.body?.dataset.page==='problemas-faby'?'problemas-faby':nav.some(([id])=>id===savedNavigation.page)?savedNavigation.page:'lecciones',
   topic:topics.some(t=>t.id===savedNavigation.topic)?savedNavigation.topic:'fundamentos',
   lessonView:['index','topic','aes'].includes(savedNavigation.lessonView)?savedNavigation.lessonView:'index',
   theoryView:['quiz','short','mock'].includes(savedNavigation.theoryView)?savedNavigation.theoryView:'quiz',
@@ -149,8 +149,8 @@ function mockMarkup(){
   return `<div class="callout">Propuesta de entrenamiento: test de teoría → pregunta corta → problema → test de prácticas. El número de preguntas, la duración y la penalización oficiales no se deducen del calendario.</div><div class="row"><button class="primary" onclick="prepareExam('teoria')">1 · Preparar test de teoría</button><button class="secondary" onclick="prepareExam('practicas')">4 · Preparar test de prácticas</button></div><div class="panel"><h2>2 · Pregunta corta</h2><p>${esc(o[0])}</p><textarea aria-label="Respuesta corta del simulacro" oninput="saveDraft('mock-open',this.value)">${esc(drafts['mock-open']||'')}</textarea><details><summary>Ver respuesta orientativa</summary><div>${esc(o[1])}</div></details><h2>3 · Problema</h2><p>${esc(p.q)}</p><textarea aria-label="Solución del problema del simulacro" oninput="saveDraft('mock-problem',this.value)">${esc(drafts['mock-problem']||'')}</textarea><details><summary>Ver solución</summary><div class="solution">${esc(p.a)}</div></details></div><button class="secondary" onclick="newMock()">Sortear otra pregunta y problema y vaciar estos dos borradores</button>`;
 }
 function render(){
-  $('#nav').innerHTML=nav.map(([id,n])=>`<button class="${state.page===id?'active':''}" ${state.page===id?'aria-current="page"':''} onclick="openSection('${id}')">${n}</button>`).join('');
-  const views={lecciones:explanationsMarkup,test:theoryMarkup,practicas:practicesMarkup,problemas:problemsMarkup};
+  $('#nav').innerHTML=nav.map(([id,n])=>`<button class="${state.page===id||state.page==='problemas-faby'&&id==='problemas'?'active':''}" ${state.page===id||state.page==='problemas-faby'&&id==='problemas'?'aria-current="page"':''} onclick="openSection('${id}')">${n}</button>`).join('');
+  const views={lecciones:explanationsMarkup,test:theoryMarkup,practicas:practicesMarkup,problemas:problemsMarkup,'problemas-faby':fabyProblemsMarkup};
   $('#app').innerHTML=(views[state.page]||explanationsMarkup)();
   put('cripto-navigation-v3',{page:state.page,topic:state.topic,lessonView:state.lessonView,theoryView:state.theoryView,practiceView:state.practiceView,problemGroup:state.problemGroup});
 }

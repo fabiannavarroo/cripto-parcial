@@ -55,8 +55,12 @@ function problemListMarkup(include){
 }
 function showProblems(group){state.problemGroup=group;go('problemas')}
 function problemsMarkup(){
-  const intro=head('Resolver en papel','Problemas','Ejercicios del temario con espacio para tu desarrollo y solución paso a paso.');
+  const intro=head('Resolver en papel','Problemas','Ejercicios del temario con espacio para tu desarrollo y solución paso a paso.')+'<p><a class="text-button" href="./problemas-faby/">Problemas Faby · todos en el orden anterior →</a></p>';
   if(!state.problemGroup)return intro+chapterList(t=>`showProblems('${t.id}')`,t=>`${problems.map((p,index)=>({...p,index})).filter(p=>problemGroup(p)===t.id).length} ejercicios`)+`<p class="sub section-description">Los ejercicios de código están en <button class="text-button" onclick="setView('practicas','exercises')">Prácticas → Ejercicios</button>.</p>`;
   const t=topics.find(t=>t.id===state.problemGroup);
   return intro+`<div class="reading-toolbar"><button class="text-button" onclick="openSection('problemas')">← Todos los temas</button><label class="compact-label">Tema<select aria-label="Bloque de problemas" onchange="state.problemGroup=this.value;render()">${options([['todas','Todos los temas'],...groupsFor('teoria')],state.problemGroup)}</select></label></div><h2>${esc(t?.title||'Todos los problemas del temario')}</h2>`+problemListMarkup(p=>!problemGroup(p).startsWith('p')&&(state.problemGroup==='todas'||problemGroup(p)===state.problemGroup));
+}
+
+function fabyProblemsMarkup(){
+  return head('Lista de Faby','Problemas Faby',`Los ${problems.length} problemas en el orden anterior, incluidos los de prácticas.`)+`<p class="sub">Tus borradores se comparten con las otras vistas de problemas.</p>`+problemListMarkup(()=>true);
 }
