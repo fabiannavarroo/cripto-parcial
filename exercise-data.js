@@ -58,7 +58,7 @@ const expandedProblems = [
     "group": "fundamentos",
     "title": "Transposición columnar y zigzag",
     "q": "A) Cifra FIESTANACIONAL escribiendo por filas en 4 columnas, sin relleno, y leyendo columnas de arriba abajo. B) Descifra PISOMLAROPTSLEEOS con zigzag de 5 filas: se escribe bajando y subiendo, y se lee por filas.",
-    "a": "A) Filas: F I E S / T A N A / C I O N / A L.\nColumnas: FTCA, IAIL, ENO, SAN. Cifrado: FTCAIAILENOSAN.\nB) Patrón de filas: 0,1,2,3,4,3,2,1,0,1,2,3,4,3,2,1. Reparte el criptograma por filas con sus longitudes 2,4,4,4,2; recorre después el zigzag. Resultado: PORSOLOMILPESETAS.",
+    "a": "A) Filas: F I E S / T A N A / C I O N / A L.\nColumnas: FTCA, IAIL, ENO, SAN. Cifrado: FTCAIAILENOSAN.\nB) Patrón de filas: 0,1,2,3,4,3,2,1,0,1,2,3,4,3,2,1,0. Reparte las 17 letras por filas con sus longitudes 3,4,4,4,2; recorre después el zigzag. Resultado: PORSOLOMILPESETAS.",
     "source": "t1",
     "pages": "2, ejercicios 9–10"
   },

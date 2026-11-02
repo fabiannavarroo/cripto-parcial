@@ -174,3 +174,13 @@ assert.equal(run("stored('cripto-drafts',{}).problem0"),'Borrador que se conserv
 run("openSection('problemas');showProblems('todas')");
 assert.ok(!rendered['#app'].innerHTML.includes('problem-check'));
 console.log('Verificados marcar/desmarcar, contador, persistencia y borradores de Faby sin contar prácticas.');
+// La longitud de cada fila debe incluir la última posición del texto de 17 letras.
+const zigzagCipher='PISOMLAROPTSLEEOS';
+const zigzagPath=Array.from({length:zigzagCipher.length},(_,i)=>i%8<=4?i%8:8-i%8);
+const zigzagCounts=Array.from({length:5},(_,row)=>zigzagPath.filter(x=>x===row).length);
+assert.deepEqual(zigzagCounts,[3,4,4,4,2]);
+assert.ok(problem('columnar').includes('3,4,4,4,2'));
+assert.ok(problem('columnar').includes('0,1,2,3,4,3,2,1,0,1,2,3,4,3,2,1,0'));
+let cursor=0;const rails=zigzagCounts.map(n=>{const r=zigzagCipher.slice(cursor,cursor+n).split('');cursor+=n;return r});
+assert.equal(zigzagPath.map(row=>rails[row].shift()).join(''),'PORSOLOMILPESETAS');
+console.log('Verificado zigzag de 17 letras y reparto circular de filas.');
